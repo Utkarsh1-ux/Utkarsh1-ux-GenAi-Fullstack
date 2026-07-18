@@ -105,7 +105,7 @@ async function LogoutUserController(req ,res) {
     const token  = req.cookies.token
 
     if(token){
-      await tokenBlacklistModel.create({token})
+      await tokenBlacklistModel.create({token}) 
     }
     res.clearCookie("token")
 
@@ -113,7 +113,21 @@ async function LogoutUserController(req ,res) {
         message : "User logged out succesfully"
     })
 }
-module.exports = {registerUserController,
+
+async function getMeController(req , res){
+    const user = await userModel.findById(req.user.id)
+    res.status(200).json({
+       message : "User details fetched succesfully",
+   user: {
+        id : user._id,
+        username : user.username,
+        email : user.email
+    
+    }
+    })
+}
+module.exports = {registerUserController,   
       LoginUserController,
-      LogoutUserController
+      LogoutUserController,
+        getMeController,
     }
