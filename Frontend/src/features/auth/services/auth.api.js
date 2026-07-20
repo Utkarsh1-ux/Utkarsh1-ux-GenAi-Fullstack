@@ -1,14 +1,17 @@
 import axios from 'axios'; 
 
 
+const api = axios.create({
+    baseURl: 'http://localhost:3000',
+    withCredentials: true 
+})
+
 export async function register({username, email, password}){
   try{
-   const response = await axios.post('http://localhost:3000/api/auth/register',{
+   const response = await api.post('/api/auth/register',{
         username,
         email,
         password
-    } , {
-        withCredentials: true  // server can set cookies in the browser or read them from the browser
     })
 
     return response.data; // Return the response data from the server
@@ -22,26 +25,32 @@ export async function register({username, email, password}){
 
 export async function login({email, password}){
     try{
-        const response = await axios.post('http://localhost:3000/api/auth/login',{
+        const response = await api.post('/api/auth/login',{
             email,
             password
-        } , {
-            withCredentials: true  // server can set cookies in the browser or read them from the browser
-        })              
+        } ,)              
         return response.data; // Return the response data from the server
     } catch(err){
         console.error('Error during login:', err);
+        throw err; // Rethrow the error to be handled by the caller
       }
 }
 
 
 export async function logout(){
     try{
-        const response = await axios.post('http://localhost:3000/api/auth/logout', {}, {
-            withCredentials: true  // server can set cookies in the browser or read them from the browser
-        })              
+        const response = await api.post('/api/auth/logout')              
         return response.data; // Return the response data from the server
     } catch(err){
         console.error('Error during logout:', err);
     }
 }
+
+export async function getMe(){
+    try{
+        const response = await api.get('/api/auth/get-me')              
+        return response.data; // Return the response data from the server
+    } catch(err){
+        console.error('Error during getMe:', err);
+    }
+} 
