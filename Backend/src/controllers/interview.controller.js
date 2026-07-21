@@ -7,30 +7,46 @@ const interviewReportModel = require("../models/interviewReport.model.js")
  * @description Controller to generate interview report based on user self description, resume and job description.
  */
 async function generateInterViewReportController(req, res) {
+    try {
+        let resumeText = ""
+        if (req.file) {
+            if (req.file.mimetype === 'application/pdf') {
+                const data = await pdfParse(req.file.buffer)
+                resumeText = data.text
+            } else {
+                return res.status(400).json({
+                    message: "Unsupported file type. Please upload a PDF file."
+                })
+            }
+        }
 
-    const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
-    const { selfDescription, jobDescription } = req.body
+        const { selfDescription, jobDescription } = req.body
 
-    const interViewReportByAi = await generateInterviewReport({
-        resume: resumeContent.text,
-        selfDescription,                                 
-        jobDescription
-    })
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeText,
+            selfDescription,                                 
+            jobDescription
+        })
 
-    const interviewReport = await interviewReportModel.create({
-        user: req.user.id,
-        resume: resumeContent.text,
-        selfDescription,
-        jobDescription,
-        title : jobDescription,
-        ...interViewReportByAi
-    })
+        const interviewReport = await interviewReportModel.create({
+            user: req.user.id,
+            resume: resumeText,
+            selfDescription,
+            jobDescription,
+            title : interViewReportByAi.title || jobDescription || 'Untitled',
+            ...interViewReportByAi
+        })
 
-    res.status(201).json({
-        message: "Interview report generated successfully.",
-        interviewReport
-    })
-
+        res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: `Failed to generate interview report: ${error.message}`,
+            error: error.message
+        });
+    }
 }
 
 /**

@@ -39,17 +39,31 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                         Resume: ${resume}
                         Self Description: ${selfDescription}
                         Job Description: ${jobDescription}
+
+You MUST return the output strictly as a JSON object matching this schema:
+{
+  "matchScore": "number (0-100)",
+  "technicalQuestions": [ { "question": "string", "intention": "string", "answer": "string" } ],
+  "behavioralQuestions": [ { "question": "string", "intention": "string", "answer": "string" } ],
+  "skillGaps": [ { "skill": "string", "severity": "low/medium/high" } ],
+  "preparationPlan": [ { "day": 1, "focus": "string", "tasks": ["string"] } ],
+  "title": "string (Job Title)"
+}
 `
 
     const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-flash-lite-latest",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema),
+            // responseSchema: zodToJsonSchema(interviewReportSchema),
         }
     })
-         return JSON.parse(response.text)
+    let text = response.text;
+    if (text.startsWith("```json")) {
+        text = text.replace(/^```json/, "").replace(/```$/, "").trim();
+    }
+    return JSON.parse(text)
 
 
 }
@@ -95,7 +109,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                     `
 
     const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-flash-lite-latest" ,
         contents: prompt,
         config: {
             responseMimeType: "application/json",

@@ -20,5 +20,13 @@ const interviewRouter = require("./routes/interview.routes.js")
 app.use("/api/auth" , authRouter)
 app.use("/api/interview" , interviewRouter)
 
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error("Unhandled error:", err);
+    res.status(err.status || 500).json({
+        message: err.message || "Internal Server Error",
+        error: err.toString()
+    });
+});
 
 module.exports = app

@@ -47,7 +47,7 @@ export async function logout() {
         return response.data
 
     } catch (err) {
-
+        console.error(err)
     }
 }
 
