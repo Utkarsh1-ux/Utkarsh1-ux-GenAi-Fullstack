@@ -1,8 +1,5 @@
 require("dotenv").config()
 const app = require("./src/app.js")
-const connectToDB = require("./src/config/database.js")
-
-connectToDB()
 
 if (process.env.NODE_ENV !== 'production') {
     app.listen(3000, () => {

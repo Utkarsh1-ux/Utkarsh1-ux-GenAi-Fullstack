@@ -3,6 +3,17 @@ const cookieParser = require("cookie-parser")
 const cors = require("cors")
 
 const app = express()
+const connectToDB = require("./config/database.js")
+
+// Ensure database connection is alive on every request for serverless
+app.use(async (req, res, next) => {
+    try {
+        await connectToDB();
+        next();
+    } catch (error) {
+        res.status(500).json({ message: "Database connection failed", error: error.message });
+    }
+});
 
 app.use(express.json())
 app.use(cookieParser())
