@@ -2,7 +2,7 @@
 import {useNavigate , Link} from 'react-router'
 import {useState} from 'react'
 import { useAuth } from '../hooks/useAuth.js'
-import Spinner from '../../../../components/Spinner.jsx'
+import Spinner from '../../../components/Spinner.jsx'
 
 const Register = () => {
 

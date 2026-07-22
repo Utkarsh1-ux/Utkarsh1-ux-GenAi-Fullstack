@@ -5,7 +5,7 @@ import "../auth.form.scss"
 import { useAuth } from '../hooks/useAuth.js'
 
 import '../auth.form.scss'
-import Spinner from '../../../../components/Spinner.jsx'
+import Spinner from '../../../components/Spinner.jsx'
 const Login = () => {
 
     const { loading ,handleLogin } = useAuth()

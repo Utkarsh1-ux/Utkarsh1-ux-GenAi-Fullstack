@@ -2,7 +2,7 @@ import {useAuth} from "../hooks/useAuth.js";
 import { Navigate } from "react-router";
 import Navbar from "../../../components/Navbar";
 
-import Spinner from "../../../../components/Spinner.jsx";
+import Spinner from "../../../components/Spinner.jsx";
 
 const Protected = ({children}) => {
 
