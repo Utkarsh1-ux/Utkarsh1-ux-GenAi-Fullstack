@@ -37,6 +37,18 @@ interviewRouter.get("/", authMiddleware.authUser, interviewController.getAllInte
  */
 interviewRouter.post("/resume/pdf/:interviewReportId", authMiddleware.authUser, interviewController.generateResumePdfController)
 
+/**
+ * @route DELETE /api/interview/:interviewId
+ * @description delete an interview report.
+ * @access private
+ */
+interviewRouter.delete("/:interviewId", authMiddleware.authUser, interviewController.deleteInterviewReportController)
 
+/**
+ * @route POST /api/interview/:interviewId/ask
+ * @description Ask the AI coach a question about the resume
+ * @access private
+ */
+interviewRouter.post("/:interviewId/ask", authMiddleware.authUser, interviewController.askInterviewAiController)
 
 module.exports = interviewRouter

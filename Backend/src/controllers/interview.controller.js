@@ -1,5 +1,5 @@
 const pdfParse = require("pdf-parse")
-const { generateInterviewReport, generateResumePdf } = require("../services/ai.service.js")
+const { generateInterviewReport, generateResumePdf, answerResumeQuestion } = require("../services/ai.service.js")
 const interviewReportModel = require("../models/interviewReport.model.js")
  
 
@@ -110,4 +110,62 @@ async function generateResumePdfController(req, res) {
     res.send(pdfBuffer)
 }
 
-module.exports = { generateInterViewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController }
+/**
+ * @description Controller to delete an interview report.
+ */
+async function deleteInterviewReportController(req, res) {
+    const { interviewId } = req.params
+
+    const interviewReport = await interviewReportModel.findOneAndDelete({ _id: interviewId, user: req.user.id })
+
+    if (!interviewReport) {
+        return res.status(404).json({
+            message: "Interview report not found or you are not authorized to delete it."
+        })
+    }
+
+    res.status(200).json({
+        message: "Interview report deleted successfully.",
+        deletedId: interviewId
+    })
+}
+
+/**
+ * @description Controller to handle custom AI questions about the resume.
+ */
+async function askInterviewAiController(req, res) {
+    try {
+        const { interviewId } = req.params;
+        const { question } = req.body;
+
+        if (!question) {
+            return res.status(400).json({ message: "Question is required." });
+        }
+
+        const interviewReport = await interviewReportModel.findOne({ _id: interviewId, user: req.user.id });
+
+        if (!interviewReport) {
+            return res.status(404).json({ message: "Interview report not found." });
+        }
+
+        const answer = await answerResumeQuestion({
+            resume: interviewReport.resume,
+            jobDescription: interviewReport.jobDescription,
+            selfDescription: interviewReport.selfDescription,
+            question
+        });
+
+        res.status(200).json({
+            message: "Answer generated successfully.",
+            answer
+        });
+    } catch (error) {
+        console.error("AI Coach Error:", error);
+        res.status(500).json({
+            message: "Failed to get an answer from the AI coach.",
+            error: error.message
+        });
+    }
+}
+
+module.exports = { generateInterViewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController, deleteInterviewReportController, askInterviewAiController }

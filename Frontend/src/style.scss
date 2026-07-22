@@ -1,39 +1,83 @@
 @use "./styles/button.scss";
 
 :root {
-    --bg-color: #0d1117;
-    --text-color: #e6edf3;
-    --primary-color: #3b82f6;
-    --border-color: #2a3348;
-    --card-bg: #161b22;
-    --panel-bg: #1c2230;
-    --input-bg: #1e2535;
-    --text-muted: #7d8590;
-    --info-bg: #1b2a4a;
-    --info-border: #2d4a7a;
-    --info-text: #8ab4f8;
-    --info-icon: #4a90e2;
+    --bg-color: #141417; 
+    --text-color: #f8fafc;
+    --primary-color: #ffffff;
+    --primary-gradient: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+    --primary-glow: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --panel-bg: rgba(255, 255, 255, 0.02);
+    --input-bg: rgba(0, 0, 0, 0.15);
+    --text-muted: #8b8a9b;
+    --info-bg: rgba(255, 255, 255, 0.04);
+    --info-border: rgba(255, 255, 255, 0.08);
+    --info-text: #e2e8f0;
+    --info-icon: #cbd5e1;
 }
 
 [data-theme='light'] {
-    --bg-color: #f3f4f6;
-    --text-color: #111827;
-    --primary-color: #2563eb;
-    --border-color: #d1d5db;
-    --card-bg: #ffffff;
-    --panel-bg: #f9fafb;
-    --input-bg: #ffffff;
-    --text-muted: #4b5563;
-    --info-bg: #eff6ff;
-    --info-border: #bfdbfe;
-    --info-text: #1e40af;
-    --info-icon: #2563eb;
+    --bg-color: #f8fafc;
+    --text-color: #0f172a;
+    --primary-color: #0f172a;
+    --primary-gradient: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    --primary-glow: rgba(15, 23, 42, 0.2);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --panel-bg: rgba(0, 0, 0, 0.02);
+    --input-bg: rgba(255, 255, 255, 1);
+    --text-muted: #64748b;
+    --info-bg: rgba(0, 0, 0, 0.03);
+    --info-border: rgba(0, 0, 0, 0.1);
+    --info-text: #334155;
+    --info-icon: #475569;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.splash-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-color);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: splashBg 1.5s ease-in-out forwards;
+    
+    h1 {
+        font-size: 3rem;
+        letter-spacing: 0.2em;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        padding: 0 2rem;
+        animation: splashText 1.5s ease-in-out forwards;
+    }
+}
+
+@keyframes splashBg {
+    0% { opacity: 1; visibility: visible; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes splashText {
+    0% { opacity: 0; transform: translateY(20px); }
+    20% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
 }
 
 html,

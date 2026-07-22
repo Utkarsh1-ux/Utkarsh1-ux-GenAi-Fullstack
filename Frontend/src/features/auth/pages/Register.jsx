@@ -3,6 +3,7 @@ import {useNavigate , Link} from 'react-router'
 import {useState} from 'react'
 import { useAuth } from '../hooks/useAuth.js'
 import Spinner from '../../../components/Spinner.jsx'
+import ThemeToggle from '../../../components/ThemeToggle.jsx'
 
 const Register = () => {
 
@@ -34,7 +35,10 @@ const Register = () => {
 
 
   return (
-     <main>
+     <main style={{ position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
+            <ThemeToggle />
+        </div>
         <div className="form-container">
             <h1>Register</h1>
             {error && <div className="error-banner">{error}</div>}

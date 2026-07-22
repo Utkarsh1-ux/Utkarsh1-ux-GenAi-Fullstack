@@ -45,19 +45,25 @@
     }
     
     &__logout-btn {
-        background-color: transparent;
-        border: 1px solid #ef4444;
+        background-color: rgba(239, 68, 68, 0.05);
+        border: 1px solid rgba(239, 68, 68, 0.2);
         color: #ef4444;
         padding: 0.5rem 1.25rem;
-        border-radius: 6px;
+        border-radius: 2rem;
         cursor: pointer;
         font-family: inherit;
-        font-weight: 500;
-        transition: all 0.2s ease;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         
         &:hover {
-            background-color: #ef4444;
-            color: white;
+            background-color: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        &:active {
+            transform: scale(0.95);
         }
     }
 }

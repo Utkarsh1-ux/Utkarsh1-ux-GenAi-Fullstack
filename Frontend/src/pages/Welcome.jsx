@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { useAuth } from '../features/auth/hooks/useAuth.js';
+import ThemeToggle from '../components/ThemeToggle.jsx';
 import './Welcome.scss';
 
 const Welcome = () => {
     const { user, loading } = useAuth();
+    const [showSplash, setShowSplash] = useState(true);
 
     if (loading) {
         return null;
@@ -15,6 +18,14 @@ const Welcome = () => {
 
     return (
         <div className="welcome-page">
+            {showSplash && (
+                <div className="splash-overlay" onAnimationEnd={() => setShowSplash(false)}>
+                    <h1>WELCOME TO RESUME ANALYZER</h1>
+                </div>
+            )}
+            <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10 }}>
+                <ThemeToggle />
+            </div>
             <div className="welcome-content">
                 <div className="icon-container">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

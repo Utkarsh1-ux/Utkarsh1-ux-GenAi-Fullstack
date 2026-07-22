@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
 import { useParams } from 'react-router'
+import { askAiQuestion } from '../services/interview.api.js'
 
 
 
@@ -9,6 +10,7 @@ const NAV_ITEMS = [
     { id: 'technical', label: 'Technical Questions', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>) },
     { id: 'behavioral', label: 'Behavioral Questions', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>) },
     { id: 'roadmap', label: 'Road Map', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>) },
+    { id: 'feedback', label: 'AI Resume Coach', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M12 8v4M12 16h.01"></path></svg>) },
 ]
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -55,6 +57,67 @@ const RoadMapDay = ({ day }) => (
         </ul>
     </div>
 )
+
+const AiCoachChat = ({ interviewId }) => {
+    const [question, setQuestion] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [history, setHistory] = useState([])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (!question.trim()) return
+        
+        const qText = question
+        setQuestion('')
+        setHistory(prev => [...prev, { type: 'user', text: qText }])
+        setLoading(true)
+        
+        try {
+            const data = await askAiQuestion(interviewId, qText)
+            setHistory(prev => [...prev, { type: 'ai', text: data.answer }])
+        } catch (error) {
+            setHistory(prev => [...prev, { type: 'ai', text: "Sorry, I couldn't generate an answer right now. Please try again." }])
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <div className="ai-coach-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="chat-history" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '50vh', overflowY: 'auto', padding: '1rem', background: 'var(--card-bg)', borderRadius: '1rem', border: '1px solid var(--border-color)' }}>
+                {history.length === 0 && (
+                    <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
+                        Ask me anything about how to improve your resume for this specific role! 
+                        <br/><br/>(e.g., "What specific React skills am I missing?", "How can I rewrite my experience section?")
+                    </p>
+                )}
+                {history.map((msg, i) => (
+                    <div key={i} style={{ alignSelf: msg.type === 'user' ? 'flex-end' : 'flex-start', background: msg.type === 'user' ? 'var(--primary-glow)' : 'var(--panel-bg)', padding: '1rem', borderRadius: '1rem', maxWidth: '80%', whiteSpace: 'pre-wrap' }}>
+                        <strong style={{ display: 'block', marginBottom: '0.5rem', color: msg.type === 'user' ? 'var(--primary-color)' : '#10b981' }}>{msg.type === 'user' ? 'You' : 'AI Coach'}</strong>
+                        {msg.text}
+                    </div>
+                ))}
+                {loading && (
+                    <div style={{ alignSelf: 'flex-start', background: 'var(--panel-bg)', padding: '1rem', borderRadius: '1rem' }}>
+                        <span style={{ animation: 'pulse 1s infinite' }}>Analyzing your resume...</span>
+                    </div>
+                )}
+            </div>
+            
+            <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '1rem' }}>
+                <input 
+                    type="text" 
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Ask how to improve your resume..."
+                    style={{ flex: 1, padding: '1rem', borderRadius: '0.5rem', background: 'var(--input-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
+                    disabled={loading}
+                />
+                <button type="submit" className="button primary-button" disabled={loading || !question.trim()}>Ask AI</button>
+            </form>
+        </div>
+    )
+}
 
 // ── Main Component ────────────────────────────────────────────────────────────
 const Interview = () => {
@@ -153,6 +216,17 @@ const Interview = () => {
                                     <RoadMapDay key={day.day} day={day} />
                                 ))}
                             </div>
+                        </section>
+                    )}
+
+                    {activeNav === 'feedback' && (
+                        <section className="ai-coach-section">
+                            <div className='content-header'>
+                                <h2>AI Resume Coach</h2>
+                                <span className='content-header__count'>Ask Custom Questions</span>
+                            </div>
+                            
+                            <AiCoachChat interviewId={interviewId} />
                         </section>
                     )}
                 </main>

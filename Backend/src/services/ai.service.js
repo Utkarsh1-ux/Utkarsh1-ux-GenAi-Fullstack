@@ -39,6 +39,10 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                         Self Description: ${selfDescription}
                         Job Description: ${jobDescription}
 
+CRITICAL INSTRUCTIONS: 
+1. You MUST generate exactly 5 technical questions and exactly 5 behavioral questions.
+2. Provide detailed, comprehensive answers for each question (not too long, but detailed enough to fully prepare the candidate).
+
 You MUST return the output strictly as a JSON object matching this schema:
 {
   "matchScore": "number (0-100)",
@@ -126,4 +130,23 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
 }
 
-module.exports = { generateInterviewReport, generateResumePdf }
+async function answerResumeQuestion({ resume, jobDescription, selfDescription, question }) {
+    const prompt = `You are an expert AI Resume Coach. A candidate is asking for feedback on their resume for a specific job.
+    
+    Resume: ${resume}
+    Self Description: ${selfDescription}
+    Job Description: ${jobDescription}
+    
+    User Question: "${question}"
+    
+    Provide a highly detailed, professional, and actionable answer. Highlight specific skills to add or remove, structural improvements, or behavioral advice. Format your response in clean Markdown (use bullet points, bold text, etc). Do NOT wrap your entire response in markdown blocks unless necessary, just output standard text/markdown.`;
+
+    const response = await ai.models.generateContent({
+        model: "gemini-flash-lite-latest",
+        contents: prompt
+    });
+
+    return response.text;
+}
+
+module.exports = { generateInterviewReport, generateResumePdf, answerResumeQuestion }

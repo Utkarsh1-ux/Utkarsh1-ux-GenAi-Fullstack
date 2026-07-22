@@ -53,3 +53,19 @@ export const generateResumePdf = async ({ interviewReportId }) => {
 
     return response.data
 }
+
+/**
+ * @description Service to delete an interview report.
+ */
+export const deleteInterviewReport = async (interviewId) => {
+    const response = await api.delete(`/api/interview/${interviewId}`)
+    return response.data
+}
+
+/**
+ * @description Service to ask the AI coach a question about the resume.
+ */
+export const askAiQuestion = async (interviewId, question) => {
+    const response = await api.post(`/api/interview/${interviewId}/ask`, { question })
+    return response.data
+}
