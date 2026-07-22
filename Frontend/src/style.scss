@@ -1,5 +1,35 @@
 @use "./styles/button.scss";
 
+:root {
+    --bg-color: #0d1117;
+    --text-color: #e6edf3;
+    --primary-color: #3b82f6;
+    --border-color: #2a3348;
+    --card-bg: #161b22;
+    --panel-bg: #1c2230;
+    --input-bg: #1e2535;
+    --text-muted: #7d8590;
+    --info-bg: #1b2a4a;
+    --info-border: #2d4a7a;
+    --info-text: #8ab4f8;
+    --info-icon: #4a90e2;
+}
+
+[data-theme='light'] {
+    --bg-color: #f3f4f6;
+    --text-color: #111827;
+    --primary-color: #2563eb;
+    --border-color: #d1d5db;
+    --card-bg: #ffffff;
+    --panel-bg: #f9fafb;
+    --input-bg: #ffffff;
+    --text-muted: #4b5563;
+    --info-bg: #eff6ff;
+    --info-border: #bfdbfe;
+    --info-text: #1e40af;
+    --info-icon: #2563eb;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -10,7 +40,8 @@ html,
 body,
 #root{
     width: 100%;
-   background-color: #1f1e1e;
-   color: whitesmoke;
-   font-family : 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family : 'Poppins', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
