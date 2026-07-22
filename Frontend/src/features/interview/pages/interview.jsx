@@ -135,8 +135,8 @@ const Interview = () => {
 
     if (loading || !report) {
         return (
-            <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
+            <main className='loading-screen' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'var(--bg-color)' }}>
+                {/* text removed per user request */}
             </main>
         )
     }
