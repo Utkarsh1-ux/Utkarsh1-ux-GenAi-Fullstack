@@ -64,6 +64,28 @@ body {
         text-align: center;
         padding: 0 2rem;
         animation: splashText 1.5s ease-in-out forwards;
+        
+        @media (max-width: 768px) {
+            font-size: 1.8rem;
+            padding: 0 1rem;
+        }
+    }
+}
+
+.login-splash-text {
+    position: absolute;
+    font-size: 2.5rem;
+    letter-spacing: 0.2em;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+    
+    @media (max-width: 768px) {
+        font-size: 1.5rem;
+        letter-spacing: 0.1em;
     }
 }
 

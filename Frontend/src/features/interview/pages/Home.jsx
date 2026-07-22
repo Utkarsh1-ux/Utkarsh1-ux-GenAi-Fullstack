@@ -52,7 +52,7 @@ const Home = () => {
     if (isGenerating) {
         return (
             <main className="loading-screen" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
-                <h1 className="login-splash-text" style={{ position: 'absolute', fontSize: '2.5rem', letterSpacing: '0.2em', background: 'var(--primary-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'phase2Anim 1.5s infinite ease-in-out', textAlign: 'center' }}>
+                <h1 className="login-splash-text" style={{ animation: 'phase2Anim 1.5s infinite ease-in-out' }}>
                     GENERATING YOUR<br/>INFORMATION...
                 </h1>
             </main>
@@ -64,13 +64,13 @@ const Home = () => {
             <main className="loading-screen" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
                 
                 {loadingPhase === 1 && (
-                    <h1 className="login-splash-text" style={{ position: 'absolute', fontSize: '2.5rem', letterSpacing: '0.2em', background: 'var(--primary-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'phase1Anim 1.5s ease-in-out forwards', textAlign: 'center' }}>
+                    <h1 className="login-splash-text" style={{ animation: 'phase1Anim 1.5s ease-in-out forwards' }}>
                         WELCOME {user?.username?.toUpperCase() || ''}
                     </h1>
                 )}
                 
                 {loadingPhase === 2 && (
-                    <h1 className="login-splash-text" style={{ position: 'absolute', fontSize: '2.5rem', letterSpacing: '0.2em', background: 'var(--primary-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'phase2Anim 1.5s infinite ease-in-out' }}>
+                    <h1 className="login-splash-text" style={{ animation: 'phase2Anim 1.5s infinite ease-in-out' }}>
                         LET'S GET STARTED
                     </h1>
                 )}
