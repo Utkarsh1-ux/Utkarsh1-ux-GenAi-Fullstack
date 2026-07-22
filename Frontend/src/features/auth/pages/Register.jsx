@@ -2,6 +2,7 @@
 import {useNavigate , Link} from 'react-router'
 import {useState} from 'react'
 import { useAuth } from '../hooks/useAuth.js'
+import Spinner from '../../../../components/Spinner.jsx'
 
 const Register = () => {
 
@@ -9,6 +10,7 @@ const Register = () => {
    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const { loading , handleRegister } = useAuth()
 
@@ -16,13 +18,17 @@ const Register = () => {
 
  const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister({username, email, password})
-    navigate('/')
-    // Handle login logic here
+    setError('');
+    const res = await handleRegister({username, email, password})
+    if (res.success) {
+        navigate('/dashboard')
+    } else {
+        setError(res.error)
+    }
    }
 
    if(loading) {
-    return(<main><h1>Loading...</h1></main>)
+    return <Spinner size="full" />
    }
 
 
@@ -31,6 +37,7 @@ const Register = () => {
      <main>
         <div className="form-container">
             <h1>Register</h1>
+            {error && <div className="error-banner">{error}</div>}
 
             <form onSubmit={handleSubmit}> 
 

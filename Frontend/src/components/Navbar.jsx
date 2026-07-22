@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { useAuth } from '../features/auth/hooks/useAuth'
 import '../styles/navbar.scss'
 
@@ -20,7 +21,9 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="navbar__brand">
-                <span className="navbar__logo">GenAI</span>
+                <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+                    <span className="navbar__logo">GenAI</span>
+                </Link>
             </div>
             
             <div className="navbar__actions">

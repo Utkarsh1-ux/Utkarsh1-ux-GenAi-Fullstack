@@ -4,10 +4,15 @@ import Register from "./features/auth/pages/Register.jsx";
 import Protected from "./features/auth/components/Protected.jsx";
 import Home from "./features/interview/pages/Home.jsx";
 import Interview from "./features/interview/pages/interview.jsx";
+import Welcome from "./pages/Welcome.jsx";
 
 
 
 export const router = createBrowserRouter([
+    {
+        path : "/",
+        element : <Welcome />
+    },
     {
         path : "/login",
         element : <Login />
@@ -17,8 +22,8 @@ export const router = createBrowserRouter([
         element : <Register />
      },
      {
-        path : "/",
-        element : <Protected><h1><Home /></h1></Protected>,
+        path : "/dashboard",
+        element : <Protected><Home /></Protected>,
 
      },
      {

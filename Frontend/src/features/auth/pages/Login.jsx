@@ -5,6 +5,7 @@ import "../auth.form.scss"
 import { useAuth } from '../hooks/useAuth.js'
 
 import '../auth.form.scss'
+import Spinner from '../../../../components/Spinner.jsx'
 const Login = () => {
 
     const { loading ,handleLogin } = useAuth()
@@ -12,17 +13,21 @@ const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
 
    const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-     await handleLogin({email, password}) 
-     navigate('/')
-
+    setError('');
+    const res = await handleLogin({email, password}) 
+    if (res.success) {
+        navigate('/dashboard')
+    } else {
+        setError(res.error)
+    }
    }
 
    if(loading) {
-    return(<main><h1>Loading...</h1></main>)
+    return <Spinner size="full" />
    }
 
 
@@ -30,6 +35,7 @@ const Login = () => {
     <main>
         <div className="form-container">
             <h1>Login</h1>
+            {error && <div className="error-banner">{error}</div>}
 
             <form onSubmit={handleSubmit}> 
 
