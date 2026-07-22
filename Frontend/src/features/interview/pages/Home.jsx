@@ -12,6 +12,7 @@ const Home = () => {
     const [ selfDescription, setSelfDescription ] = useState("")
     const [ minLoading, setMinLoading ] = useState(true)
     const [ loadingPhase, setLoadingPhase ] = useState(1)
+    const [ isGenerating, setIsGenerating ] = useState(false)
     const resumeInputRef = useRef()
 
     const navigate = useNavigate()
@@ -40,13 +41,25 @@ const Home = () => {
             return;
         }
 
+        setIsGenerating(true)
         const data = await generateReport({ jobDescription, selfDescription, resumeFile })
+        setIsGenerating(false)
         if (data && data._id) {
             navigate(`/interview/${data._id}`)
         }
     }
 
-    if (loading || minLoading) {
+    if (isGenerating) {
+        return (
+            <main className="loading-screen" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
+                <h1 className="login-splash-text" style={{ position: 'absolute', fontSize: '2.5rem', letterSpacing: '0.2em', background: 'var(--primary-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'phase2Anim 1.5s infinite ease-in-out', textAlign: 'center' }}>
+                    GENERATING YOUR<br/>INFORMATION...
+                </h1>
+            </main>
+        )
+    }
+
+    if ((loading || minLoading) && !isGenerating) {
         return (
             <main className="loading-screen" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-color)', position: 'relative' }}>
                 
