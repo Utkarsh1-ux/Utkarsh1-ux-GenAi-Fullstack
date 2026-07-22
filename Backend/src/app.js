@@ -22,6 +22,11 @@ const interviewRouter = require("./routes/interview.routes.js")
 app.use("/api/auth" , authRouter)
 app.use("/api/interview" , interviewRouter)
 
+// Root route for health check
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Interview AI Backend is running successfully!" });
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
     console.error("Unhandled error:", err);
