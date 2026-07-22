@@ -18,9 +18,8 @@ const Home = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const timer1 = setTimeout(() => setLoadingPhase(2), 1500)
-        const timer2 = setTimeout(() => setMinLoading(false), 3000)
-        return () => { clearTimeout(timer1); clearTimeout(timer2); }
+        const timer = setTimeout(() => setMinLoading(false), 1500)
+        return () => clearTimeout(timer)
     }, [])
 
     const averageScore = useMemo(() => {
@@ -66,12 +65,6 @@ const Home = () => {
                 {loadingPhase === 1 && (
                     <h1 className="login-splash-text" style={{ animation: 'phase1Anim 1.5s ease-in-out forwards' }}>
                         WELCOME {user?.username?.toUpperCase() || ''}
-                    </h1>
-                )}
-                
-                {loadingPhase === 2 && (
-                    <h1 className="login-splash-text" style={{ animation: 'phase2Anim 1.5s infinite ease-in-out' }}>
-                        LET'S GET STARTED
                     </h1>
                 )}
 
