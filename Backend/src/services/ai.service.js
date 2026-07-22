@@ -41,7 +41,8 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 CRITICAL INSTRUCTIONS: 
 1. You MUST generate exactly 5 technical questions and exactly 5 behavioral questions.
-2. Provide detailed, comprehensive answers for each question (not too long, but detailed enough to fully prepare the candidate).
+2. Provide detailed, comprehensive answers for each question.
+3. Be EXTREMELY STRICT and OBJECTIVE with the matchScore. Calculate it realistically from 0-100 based on exact skill overlap, years of experience, and missing requirements. Do NOT default to high scores; if the resume lacks core requirements, the score should be low (e.g., 20-50).
 
 You MUST return the output strictly as a JSON object matching this schema:
 {
