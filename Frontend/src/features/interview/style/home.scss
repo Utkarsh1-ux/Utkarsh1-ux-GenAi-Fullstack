@@ -58,6 +58,14 @@
     align-items: center;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%);
     border: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
     
     &::before {
         content: '';
