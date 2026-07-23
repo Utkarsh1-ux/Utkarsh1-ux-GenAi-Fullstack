@@ -1,5 +1,5 @@
 import {useAuth} from "../hooks/useAuth.js";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import Navbar from "../../../components/Navbar";
 
 import Spinner from "../../../components/Spinner.jsx";
@@ -7,6 +7,7 @@ import Spinner from "../../../components/Spinner.jsx";
 const Protected = ({children}) => {
 
     const {loading, user} = useAuth()
+    const location = useLocation()
 
     if(loading) {
         return <Spinner size="full" />
@@ -15,9 +16,11 @@ const Protected = ({children}) => {
         return <Navigate to={"/login"} />
     }   
 
+    const showNavbar = location.pathname.includes('/dashboard')
+
   return (
       <>
-          <Navbar />
+          {showNavbar && <Navbar />}
           {children}
       </>
   )
