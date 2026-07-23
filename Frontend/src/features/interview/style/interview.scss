@@ -29,6 +29,10 @@ $severity-low: #3fb950;
     align-items: stretch;
     padding: 1.5rem;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+    }
 }
 
 // ── 3-Column Layout ───────────────────────────────────────────────────────────
@@ -148,6 +152,11 @@ $severity-low: #3fb950;
     max-height: calc(100vh - 3rem);
     padding-bottom: 5rem;
     align-items: flex-start;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+        max-height: none;
+    }
 
 
 

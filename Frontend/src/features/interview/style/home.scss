@@ -6,6 +6,10 @@
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
 }
 
 .dashboard-header {
@@ -49,6 +53,10 @@
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+        padding: 1.25rem;
+    }
 }
 
 /* Banner Card */
